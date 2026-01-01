@@ -30,9 +30,9 @@ export async function handleRealityAPI(request) {
     switch (action) {
         case 'config':
             if (request.method === 'GET') {
-                return await handleGetConfig();
+                return await handleGetRealityConfig();
             } else if (request.method === 'POST') {
-                return await handleSaveConfig(request);
+                return await handleSaveRealityConfig(request);
             }
             break;
         
@@ -61,22 +61,22 @@ export async function handleRealityAPI(request) {
             return handleGetFingerprints();
         
         case 'singbox-config':
-            return await handleSingboxConfig(request);
+            return await handleRealitySingboxConfig(request);
         
         case 'xray-config':
-            return await handleXrayConfig(request);
+            return await handleRealityXrayConfig(request);
         
         case 'xray-server-config':
             return await handleXrayServerConfig();
         
         case 'test':
             if (request.method === 'POST') {
-                return await handleTest(request);
+                return await handleRealityTest(request);
             }
             break;
         
         case 'status':
-            return await handleStatus();
+            return await handleRealityStatus();
         
         default:
             return jsonResponse({ error: 'مسیر یافت نشد' }, 404);
@@ -88,7 +88,7 @@ export async function handleRealityAPI(request) {
 /**
  * دریافت کانفیگ Reality
  */
-async function handleGetConfig() {
+async function handleGetRealityConfig() {
     const config = await getRealityConfig();
     
     // مخفی کردن کلید خصوصی
@@ -109,7 +109,7 @@ async function handleGetConfig() {
 /**
  * ذخیره کانفیگ Reality
  */
-async function handleSaveConfig(request) {
+async function handleSaveRealityConfig(request) {
     try {
         const data = await request.json();
         
@@ -247,7 +247,7 @@ function handleGetFingerprints() {
 /**
  * تولید کانفیگ Sing-box
  */
-async function handleSingboxConfig(request) {
+async function handleRealitySingboxConfig(request) {
     const url = new URL(request.url);
     const serverAddress = url.searchParams.get('server') || '';
     const serverPort = parseInt(url.searchParams.get('port') || '443');
@@ -273,7 +273,7 @@ async function handleSingboxConfig(request) {
 /**
  * تولید کانفیگ Xray کلاینت
  */
-async function handleXrayConfig(request) {
+async function handleRealityXrayConfig(request) {
     const url = new URL(request.url);
     const serverAddress = url.searchParams.get('server') || '';
     const serverPort = parseInt(url.searchParams.get('port') || '443');
@@ -320,7 +320,7 @@ async function handleXrayServerConfig() {
 /**
  * تست اتصال Reality
  */
-async function handleTest(request) {
+async function handleRealityTest(request) {
     try {
         const data = await request.json();
         const serverAddress = data.server;
@@ -350,7 +350,7 @@ async function handleTest(request) {
 /**
  * وضعیت Reality
  */
-async function handleStatus() {
+async function handleRealityStatus() {
     const config = await getRealityConfig();
     
     return jsonResponse({

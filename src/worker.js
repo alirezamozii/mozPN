@@ -25,14 +25,14 @@ import { DEFAULT_PROXY_IPS } from './config/constants.js';
 import { handleXhttpPost } from './protocols/xhttp.js';
 
 // متغیر سراسری برای KV
-let kvStore = null;
+let workerKvStore = null;
 
 export default {
     async fetch(request, env, ctx) {
         try {
             // راه‌اندازی KV
             await initKVStore(env);
-            kvStore = env.C || null;
+            workerKvStore = env.C || null;
             
             // دریافت UUID از env
             const uuid = (env.u || env.U || '').toLowerCase();
@@ -83,8 +83,8 @@ export default {
             // WebSocket
             if (request.headers.get('Upgrade') === 'websocket') {
                 // احراز هویت کاربر (اگر مدیریت کاربران فعال باشد)
-                if (enableUserManagement && kvStore) {
-                    const authResult = await authenticateUser(kvStore, uuid, enableUserManagement);
+                if (enableUserManagement && workerKvStore) {
+                    const authResult = await authenticateUser(workerKvStore, uuid, enableUserManagement);
                     if (!authResult.valid) {
                         // ارسال پیام خطا به کلاینت
                         const errorMessages = {
@@ -126,7 +126,7 @@ export default {
                     const pathIdentifier = pathParts.slice(0, apiIndex).join('/');
                     
                     if (isValidPath(pathIdentifier, uuid, customPath)) {
-                        return await handleUsersAPI(request, kvStore);
+                        return await handleUsersAPI(request, workerKvStore);
                     }
                     return jsonResponse({ error: 'مسیر نامعتبر' }, 403);
                 }
@@ -286,7 +286,7 @@ export default {
                     const pathIdentifier = pathParts.slice(0, apiIndex).join('/');
                     
                     if (isValidPath(pathIdentifier, uuid, customPath)) {
-                        return await handleBackupAPI(request, kvStore);
+                        return await handleBackupAPI(request, workerKvStore);
                     }
                     return jsonResponse({ error: 'مسیر نامعتبر' }, 403);
                 }

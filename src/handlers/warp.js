@@ -33,9 +33,9 @@ export async function handleWarpAPI(request) {
     switch (action) {
         case 'config':
             if (request.method === 'GET') {
-                return await handleGetConfig();
+                return await handleGetWarpConfig();
             } else if (request.method === 'POST') {
-                return await handleSaveConfig(request);
+                return await handleSaveWarpConfig(request);
             }
             break;
         
@@ -67,10 +67,10 @@ export async function handleWarpAPI(request) {
             return await handleAccountInfo();
         
         case 'best-endpoint':
-            return await handleBestEndpoint();
+            return await handleWarpBestEndpoint();
         
         case 'endpoints':
-            return handleGetEndpoints();
+            return handleGetWarpEndpoints();
         
         case 'countries':
             return handleGetCountries();
@@ -85,16 +85,16 @@ export async function handleWarpAPI(request) {
             return await handleWireGuardConfig(request);
         
         case 'singbox-config':
-            return await handleSingboxConfig();
+            return await handleWarpSingboxConfig();
         
         case 'xray-config':
-            return await handleXrayConfig();
+            return await handleWarpXrayConfig();
         
         case 'validate-key':
             return await handleValidateKey(request);
         
         case 'status':
-            return await handleStatus();
+            return await handleWarpStatus();
         
         default:
             return jsonResponse({ error: 'مسیر یافت نشد' }, 404);
@@ -106,7 +106,7 @@ export async function handleWarpAPI(request) {
 /**
  * دریافت کانفیگ WARP
  */
-async function handleGetConfig() {
+async function handleGetWarpConfig() {
     const config = await getWarpConfig();
     
     // مخفی کردن کلید خصوصی در خروجی
@@ -127,7 +127,7 @@ async function handleGetConfig() {
 /**
  * ذخیره کانفیگ WARP
  */
-async function handleSaveConfig(request) {
+async function handleSaveWarpConfig(request) {
     try {
         const data = await request.json();
         
@@ -412,7 +412,7 @@ async function handleGetFreeGB(request) {
 /**
  * دریافت بهترین Endpoint
  */
-async function handleBestEndpoint() {
+async function handleWarpBestEndpoint() {
     try {
         const endpoint = await getBestWarpEndpoint();
         
@@ -431,7 +431,7 @@ async function handleBestEndpoint() {
 /**
  * لیست Endpoint ها
  */
-function handleGetEndpoints() {
+function handleGetWarpEndpoints() {
     return jsonResponse({
         success: true,
         endpoints: getWarpEndpoints()
@@ -467,7 +467,7 @@ async function handleWireGuardConfig(request) {
 /**
  * تولید کانفیگ Sing-box
  */
-async function handleSingboxConfig() {
+async function handleWarpSingboxConfig() {
     const config = await getWarpConfig();
     
     if (!config.privateKey) {
@@ -488,7 +488,7 @@ async function handleSingboxConfig() {
 /**
  * تولید کانفیگ Xray
  */
-async function handleXrayConfig() {
+async function handleWarpXrayConfig() {
     const config = await getWarpConfig();
     
     if (!config.privateKey) {
@@ -532,7 +532,7 @@ async function handleValidateKey(request) {
 /**
  * وضعیت WARP
  */
-async function handleStatus() {
+async function handleWarpStatus() {
     const config = await getWarpConfig();
     
     return jsonResponse({

@@ -1,15 +1,11 @@
-name = "mozpn-worker"
+name = "alirezaPN"
 main = "src/worker.js"
 compatibility_date = "2024-01-01"
 compatibility_flags = ["nodejs_compat"]
 
 [vars]
-u = "b5951a37-5c1a-4dcd-9731-13c727a33a8f"
+u = "c6b66fec-b8f1-4756-8351-491b8f7ebe0e"
  
 [[kv_namespaces]] 
 binding = "C" 
-id = "167c5bcd45cb47e68306a02cc16f94c3" 
-
-# Cron Trigger برای Health Check خودکار (هر 10 دقیقه - منطقی‌تر)
-[triggers]
-crons = ["*/10 * * * *"] 
+id = "cabc92ca084f4dd6b832b13e731e2d9a" 

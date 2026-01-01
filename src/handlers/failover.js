@@ -31,15 +31,15 @@ export async function handleFailoverAPI(request, env) {
     switch (action) {
         case 'config':
             if (request.method === 'GET') {
-                return await handleGetConfig();
+                return await handleGetFailoverConfig();
             } else if (request.method === 'POST') {
-                return await handleSaveConfig(request);
+                return await handleSaveFailoverConfig(request);
             }
             break;
         
         case 'endpoints':
             if (request.method === 'GET') {
-                return await handleGetEndpoints();
+                return await handleGetFailoverEndpoints();
             } else if (request.method === 'POST') {
                 return await handleAddEndpoint(request);
             }
@@ -53,7 +53,7 @@ export async function handleFailoverAPI(request, env) {
         
         case 'health-check':
             if (request.method === 'POST') {
-                return await handleHealthCheck();
+                return await handleFailoverHealthCheck();
             }
             break;
         
@@ -64,7 +64,7 @@ export async function handleFailoverAPI(request, env) {
             break;
         
         case 'best-endpoint':
-            return await handleBestEndpoint();
+            return await handleFailoverBestEndpoint();
         
         case 'switch':
             if (request.method === 'POST') {
@@ -76,13 +76,13 @@ export async function handleFailoverAPI(request, env) {
             return await handleStats();
         
         case 'singbox-config':
-            return await handleSingboxConfig();
+            return await handleFailoverSingboxConfig();
         
         case 'xray-config':
-            return await handleXrayConfig();
+            return await handleFailoverXrayConfig();
         
         case 'status':
-            return await handleStatus();
+            return await handleFailoverStatus();
         
         default:
             return jsonResponse({ error: 'مسیر یافت نشد' }, 404);
@@ -94,7 +94,7 @@ export async function handleFailoverAPI(request, env) {
 /**
  * دریافت کانفیگ Failover
  */
-async function handleGetConfig() {
+async function handleGetFailoverConfig() {
     const config = await getFailoverConfig();
     
     return jsonResponse({
@@ -106,7 +106,7 @@ async function handleGetConfig() {
 /**
  * ذخیره کانفیگ Failover
  */
-async function handleSaveConfig(request) {
+async function handleSaveFailoverConfig(request) {
     try {
         const data = await request.json();
         
@@ -139,7 +139,7 @@ async function handleSaveConfig(request) {
 /**
  * لیست Endpoint ها
  */
-async function handleGetEndpoints() {
+async function handleGetFailoverEndpoints() {
     const config = await getFailoverConfig();
     
     return jsonResponse({
@@ -218,7 +218,7 @@ async function handleRemoveEndpoint(request) {
 /**
  * اجرای Health Check
  */
-async function handleHealthCheck() {
+async function handleFailoverHealthCheck() {
     try {
         const config = await getFailoverConfig();
         
@@ -292,7 +292,7 @@ async function handleCheckEndpoint(request) {
 /**
  * انتخاب بهترین Endpoint
  */
-async function handleBestEndpoint() {
+async function handleFailoverBestEndpoint() {
     try {
         const config = await getFailoverConfig();
         
@@ -363,7 +363,7 @@ async function handleStats() {
 /**
  * تولید کانفیگ Sing-box
  */
-async function handleSingboxConfig() {
+async function handleFailoverSingboxConfig() {
     const config = await getFailoverConfig();
     const singboxConfig = generateSingboxLoadBalancer(config);
     
@@ -384,7 +384,7 @@ async function handleSingboxConfig() {
 /**
  * تولید کانفیگ Xray
  */
-async function handleXrayConfig() {
+async function handleFailoverXrayConfig() {
     const config = await getFailoverConfig();
     const xrayConfig = generateXrayLoadBalancer(config);
     
@@ -405,7 +405,7 @@ async function handleXrayConfig() {
 /**
  * وضعیت Failover
  */
-async function handleStatus() {
+async function handleFailoverStatus() {
     const config = await getFailoverConfig();
     const current = getCurrentEndpoint(config);
     

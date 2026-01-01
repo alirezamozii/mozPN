@@ -44,7 +44,7 @@ export async function handleRoutingAPI(request) {
             return handleGeoSources();
         
         case 'health':
-            return handleHealthCheck();
+            return handleRoutingHealthCheck();
         
         case 'iran-cidr':
             return jsonResponse({
@@ -199,7 +199,7 @@ function handleGeoSources() {
 /**
  * بررسی سلامت منابع
  */
-async function handleHealthCheck() {
+async function handleRoutingHealthCheck() {
     const health = await checkGeoSourcesHealth();
     
     const allHealthy = Object.values(health).every(h => h.available);

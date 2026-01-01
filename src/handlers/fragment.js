@@ -25,9 +25,9 @@ export async function handleFragmentAPI(request) {
     switch (action) {
         case 'config':
             if (request.method === 'GET') {
-                return await handleGetConfig();
+                return await handleGetFragmentConfig();
             } else if (request.method === 'POST') {
-                return await handleSaveConfig(request);
+                return await handleSaveFragmentConfig(request);
             }
             break;
         
@@ -41,17 +41,17 @@ export async function handleFragmentAPI(request) {
             break;
         
         case 'singbox-config':
-            return await handleSingboxConfig();
+            return await handleFragmentSingboxConfig();
         
         case 'xray-config':
-            return await handleXrayConfig();
+            return await handleFragmentXrayConfig();
         
         case 'status':
-            return await handleStatus();
+            return await handleFragmentStatus();
         
         case 'test':
             if (request.method === 'POST') {
-                return await handleTest(request);
+                return await handleFragmentTest(request);
             }
             break;
         
@@ -65,7 +65,7 @@ export async function handleFragmentAPI(request) {
 /**
  * دریافت کانفیگ Fragment
  */
-async function handleGetConfig() {
+async function handleGetFragmentConfig() {
     const config = await getFragmentConfig();
     
     return jsonResponse({
@@ -77,7 +77,7 @@ async function handleGetConfig() {
 /**
  * ذخیره کانفیگ Fragment
  */
-async function handleSaveConfig(request) {
+async function handleSaveFragmentConfig(request) {
     try {
         const data = await request.json();
         
@@ -172,7 +172,7 @@ async function handleApplyPreset(request) {
 /**
  * تولید کانفیگ Sing-box
  */
-async function handleSingboxConfig() {
+async function handleFragmentSingboxConfig() {
     const config = await getFragmentConfig();
     const singboxConfig = generateSingboxFragmentConfig(config);
     
@@ -193,7 +193,7 @@ async function handleSingboxConfig() {
 /**
  * تولید کانفیگ Xray
  */
-async function handleXrayConfig() {
+async function handleFragmentXrayConfig() {
     const config = await getFragmentConfig();
     const xrayConfig = generateXrayFragmentConfig(config);
     
@@ -214,7 +214,7 @@ async function handleXrayConfig() {
 /**
  * وضعیت Fragment
  */
-async function handleStatus() {
+async function handleFragmentStatus() {
     const config = await getFragmentConfig();
     
     return jsonResponse({
@@ -231,7 +231,7 @@ async function handleStatus() {
 /**
  * تست Fragment
  */
-async function handleTest(request) {
+async function handleFragmentTest(request) {
     try {
         const data = await request.json();
         const testData = data.data || 'Hello, World!';
