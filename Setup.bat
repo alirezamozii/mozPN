@@ -297,10 +297,14 @@ echo.
 echo      WORKER NAME
 echo      -----------
 echo      This is your worker's name on Cloudflare.
+echo      (lowercase letters, numbers, and dashes only)
 echo.
 set "WORKER_NAME=mozpn-worker"
 set /p "WORKER_NAME=      Enter name [mozpn-worker]: "
 if "!WORKER_NAME!"=="" set "WORKER_NAME=mozpn-worker"
+
+:: تبدیل به حروف کوچک و جایگزینی کاراکترهای غیرمجاز
+for /f "tokens=*" %%i in ('powershell -Command "$name = '!WORKER_NAME!'.ToLower() -replace '[^a-z0-9-]', '-' -replace '--+', '-' -replace '^-|-$', ''; if($name -eq '') { 'mozpn-worker' } else { $name }"') do set "WORKER_NAME=%%i"
 echo.
 echo      [OK] Name: !WORKER_NAME!
 echo.
