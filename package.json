@@ -1,0 +1,26 @@
+{
+  "name": "mozpn-worker",
+  "version": "3.0.0",
+  "description": "MozPN - Worker پروکسی پیشرفته با انتخاب چند کشور",
+  "main": "src/worker.js",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail",
+    "bundle": "node obfuscate.cjs",
+    "obfuscate": "node obfuscate.cjs"
+  },
+  "keywords": [
+    "cloudflare",
+    "worker",
+    "proxy",
+    "vless",
+    "trojan"
+  ],
+  "author": "MozPN Team",
+  "license": "MIT",
+  "devDependencies": {
+    "javascript-obfuscator": "^4.1.1"
+  }
+}
