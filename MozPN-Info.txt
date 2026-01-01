@@ -1,0 +1,13 @@
+========================================
+MozPN Installation Info
+Thu 01/01/2026  8:32:50.40
+========================================
+
+Worker: mozpn-worker
+UUID: 55e489b6-fd10-4ba8-a769-b7b010f7f7e5
+Trojan: 
+KV ID: eb170c483bfc4bbd925434e19cb3150b
+
+Panel: https://mozpn-worker.alirezakaregar05.workers.dev/55e489b6-fd10-4ba8-a769-b7b010f7f7e5
+Subscription: https://mozpn-worker.alirezakaregar05.workers.dev/55e489b6-fd10-4ba8-a769-b7b010f7f7e5/sub
+========================================

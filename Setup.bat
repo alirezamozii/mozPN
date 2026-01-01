@@ -638,10 +638,11 @@ echo      !SUB_URL!
 echo.
 echo.
 
-:: Save to file
+:: Save to file with worker name
+set "INFO_FILE=!WORKER_NAME!-Info.txt"
 (
 echo ========================================
-echo MozPN Installation Info
+echo !WORKER_NAME! Installation Info
 echo %date% %time%
 echo ========================================
 echo.
@@ -653,9 +654,9 @@ echo.
 echo Panel: !PANEL_URL!
 echo Subscription: !SUB_URL!
 echo ========================================
-) > MozPN-Info.txt
+) > "!INFO_FILE!"
 
-echo      [OK] Saved to MozPN-Info.txt
+echo      [OK] Saved to !INFO_FILE!
 echo.
 echo   ****************************************************************
 echo      NEXT STEPS:
