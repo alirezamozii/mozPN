@@ -351,8 +351,8 @@ function generateSubscriptionTab(isFa, lang) {
             <div class="preview-name-box">
                 <div class="preview-name-label">${isFa ? '👁️ پیش‌نمایش:' : '👁️ Preview:'}</div>
                 <div class="preview-name-samples" id="namingPreview">
-                    <span class="preview-name-item">MozPN | 🇩🇪 Germany #01</span>
-                    <span class="preview-name-item">MozPN | 🇳🇱 Netherlands #01</span>
+                    <span class="preview-name-item">🇩🇪 Germany</span>
+                    <span class="preview-name-item">🇳🇱 Netherlands</span>
                 </div>
             </div>
         </div>

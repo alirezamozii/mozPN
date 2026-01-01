@@ -129,7 +129,7 @@ function toggleCustomFormat() {
 function updateNamingPreview() {
     const format = document.getElementById('nodeNameFormat')?.value || 'country-user';
     const customFormat = document.getElementById('customNodeFormat')?.value || '';
-    const prefix = document.getElementById('remarkPrefix')?.value || 'MozPN';
+    const prefix = document.getElementById('remarkPrefix')?.value || '';
     const separator = document.getElementById('remarkSeparator')?.value || ' | ';
     const indexStart = parseInt(document.getElementById('indexStart')?.value || '1');
     const indexPadding = parseInt(document.getElementById('indexPadding')?.value || '2');
@@ -163,19 +163,19 @@ function updateNamingPreview() {
         
         switch (format) {
             case 'country-user':
-                return s.emoji + ' ' + s.country + separator + prefix;
+                return prefix ? (s.emoji + ' ' + s.country + separator + prefix) : (s.emoji + ' ' + s.country);
             case 'user-country':
-                return prefix + separator + s.emoji + ' ' + s.country;
+                return prefix ? (prefix + separator + s.emoji + ' ' + s.country) : (s.emoji + ' ' + s.country);
             case 'country-only':
                 return s.emoji + ' ' + s.country;
             case 'user-only':
-                return prefix;
+                return prefix || s.country;
             case 'indexed':
-                return prefix + separator + s.emoji + ' ' + s.country + ' #' + indexFormatted;
+                return prefix ? (prefix + separator + s.emoji + ' ' + s.country + ' #' + indexFormatted) : (s.emoji + ' ' + s.country + ' #' + indexFormatted);
             case 'protocol-indexed':
-                return prefix + separator + 'VLESS' + separator + s.emoji + ' ' + s.country + ' #' + indexFormatted;
+                return prefix ? (prefix + separator + 'VLESS' + separator + s.emoji + ' ' + s.country + ' #' + indexFormatted) : ('VLESS' + separator + s.emoji + ' ' + s.country + ' #' + indexFormatted);
             default:
-                return s.emoji + ' ' + s.country + separator + prefix;
+                return prefix ? (s.emoji + ' ' + s.country + separator + prefix) : (s.emoji + ' ' + s.country);
         }
     });
     
