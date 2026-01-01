@@ -448,22 +448,15 @@ if "!KV_CHOICE!"=="1" (
     echo      Creating KV storage  ...
     echo.
     
-    :: اسم KV داینامیک بر اساس اسم worker
-    set "KV_NAME=!WORKER_NAME!-kv"
+    :: اسم KV داینامیک بر اساس اسم worker + رندوم
+    for /f "tokens=*" %%i in ('powershell -Command "Get-Random -Minimum 1000 -Maximum 9999"') do set "RAND=%%i"
+    set "KV_NAME=!WORKER_NAME!-kv-!RAND!"
     
-    :: اول چک کن آیا این KV وجود داره
-    set "KV_ID="
-    for /f "tokens=*" %%i in ('powershell -Command "try { $list = npx wrangler kv namespace list 2>&1 | ConvertFrom-Json; ($list | Where-Object { $_.title -eq '!KV_NAME!' }).id } catch { '' }"') do set "KV_ID=%%i"
-    
-    if not "!KV_ID!"=="" (
-        echo      [OK] Found existing KV "!KV_NAME!": !KV_ID!
-    ) else (
-        echo      Creating new KV namespace "!KV_NAME!"...
-        for /f "tokens=*" %%i in ('npx wrangler kv namespace create "!KV_NAME!" 2^>^&1') do (
-            echo      %%i
-            echo %%i | findstr /C:"id = " >nul && (
-                for /f "tokens=3 delims= " %%j in ("%%i") do set "KV_ID=%%~j"
-            )
+    echo      Creating new KV namespace "!KV_NAME!"...
+    for /f "tokens=*" %%i in ('npx wrangler kv namespace create "!KV_NAME!" 2^>^&1') do (
+        echo      %%i
+        echo %%i | findstr /C:"id = " >nul && (
+            for /f "tokens=3 delims= " %%j in ("%%i") do set "KV_ID=%%~j"
         )
     )
     
