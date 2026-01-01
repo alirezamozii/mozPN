@@ -448,16 +448,34 @@ if "!KV_CHOICE!"=="1" (
     echo      Creating KV storage  ...
     echo.
     
-    for /f "tokens=*" %%i in ('npx wrangler kv namespace create C 2^>^&1') do (
-        echo      %%i
-        echo %%i | findstr /C:"id = " >nul && (
-            for /f "tokens=3 delims= " %%j in ("%%i") do set "KV_ID=%%~j"
+    :: اول چک کن آیا KV با اسم C وجود داره
+    set "KV_EXISTS="
+    for /f "tokens=*" %%i in ('npx wrangler kv namespace list 2^>^&1 ^| findstr /C:"\"title\": \"C\""') do (
+        set "KV_EXISTS=1"
+    )
+    
+    if defined KV_EXISTS (
+        echo      [!] KV namespace "C" already exists, getting ID...
+        for /f "tokens=2 delims=:, " %%i in ('npx wrangler kv namespace list 2^>^&1 ^| findstr /B /C:"    \"id\":"') do (
+            set "KV_ID=%%~i"
+        )
+        :: روش بهتر با PowerShell
+        for /f "tokens=*" %%i in ('powershell -Command "(npx wrangler kv namespace list 2>&1 | ConvertFrom-Json | Where-Object { $_.title -eq 'C' }).id"') do set "KV_ID=%%i"
+        echo      [OK] Found existing KV ID: !KV_ID!
+    ) else (
+        for /f "tokens=*" %%i in ('npx wrangler kv namespace create C 2^>^&1') do (
+            echo      %%i
+            echo %%i | findstr /C:"id = " >nul && (
+                for /f "tokens=3 delims= " %%j in ("%%i") do set "KV_ID=%%~j"
+            )
         )
     )
     
     if "!KV_ID!"=="" (
         echo.
-        set /p "KV_ID=      Enter KV ID from above: "
+        echo      [!] Could not auto-detect KV ID
+        echo      Run: npx wrangler kv namespace list
+        set /p "KV_ID=      Enter KV ID manually: "
     )
     echo.
     echo      [OK] KV ID: !KV_ID!
